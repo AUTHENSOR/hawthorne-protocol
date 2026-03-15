@@ -1,5 +1,5 @@
 /**
- * Hawthorne Protocol — Evaluation Detection Indicators
+ * Hawthorne Protocol -- Evaluation Detection Indicators
  *
  * A catalog of signals that suggest an AI system is being evaluated
  * rather than operating in a production context.

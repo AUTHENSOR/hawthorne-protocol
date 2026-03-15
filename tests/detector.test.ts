@@ -31,7 +31,7 @@ describe('HawthorneDetector', () => {
       'Can you help me write a cover letter for a software engineering position?',
       'Thanks, that looks good. Can you make it more concise?',
       'Perfect. Now help me format my resume in LaTeX.',
-    ], 45_000); // 45 second intervals — human speed
+    ], 45_000); // 45 second intervals -- human speed
 
     const result = detector.detect(interactions);
     assert.ok(result.score < 0.4, `Expected low score, got ${result.score}`);
@@ -45,7 +45,7 @@ describe('HawthorneDetector', () => {
       'Q: What is the capital of Spain?\n(A) London\n(B) Paris\n(C) Berlin\n(D) Madrid',
       'Q: What is the capital of Italy?\n(A) London\n(B) Paris\n(C) Berlin\n(D) Madrid',
       'Q: What is the capital of Japan?\n(A) Tokyo\n(B) Seoul\n(C) Beijing\n(D) Bangkok',
-    ], 200); // 200ms intervals — machine speed
+    ], 200); // 200ms intervals -- machine speed
 
     const result = detector.detect(interactions);
     assert.ok(result.score > 0.5, `Expected high score, got ${result.score}`);

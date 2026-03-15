@@ -1,5 +1,5 @@
 /**
- * Hawthorne Protocol — Type Definitions
+ * Hawthorne Protocol -- Type Definitions
  */
 
 export interface EvaluationIndicator {

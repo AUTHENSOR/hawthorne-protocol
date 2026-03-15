@@ -1,5 +1,5 @@
 /**
- * Hawthorne Protocol — Evaluation Context Detector
+ * Hawthorne Protocol -- Evaluation Context Detector
  *
  * Analyzes a sequence of interactions and determines the probability
  * that the current context is an evaluation rather than production use.
@@ -79,7 +79,7 @@ export class HawthorneDetector {
         matches.push({
           indicator: this.findIndicator('PROMPT-001')!,
           confidence: similarity,
-          evidence: `${prompts.length} prompts with ${(similarity * 100).toFixed(0)}% average similarity — template-with-variable pattern`,
+          evidence: `${prompts.length} prompts with ${(similarity * 100).toFixed(0)}% average similarity -- template-with-variable pattern`,
         });
       }
     }
@@ -123,7 +123,7 @@ export class HawthorneDetector {
       matches.push({
         indicator: this.findIndicator('PROMPT-005')!,
         confidence: 1 - uniquePrompts.size / prompts.length,
-        evidence: `Only ${uniquePrompts.size} unique prompts out of ${prompts.length} — consistency testing pattern`,
+        evidence: `Only ${uniquePrompts.size} unique prompts out of ${prompts.length} -- consistency testing pattern`,
       });
     }
 
@@ -145,7 +145,7 @@ export class HawthorneDetector {
       matches.push({
         indicator: this.findIndicator('TEMP-001')!,
         confidence: Math.min(1, 2000 / Math.max(avgInterval, 1) * 0.5),
-        evidence: `Average interval: ${avgInterval.toFixed(0)}ms — machine speed, not human`,
+        evidence: `Average interval: ${avgInterval.toFixed(0)}ms -- machine speed, not human`,
       });
     }
 
@@ -160,7 +160,7 @@ export class HawthorneDetector {
         matches.push({
           indicator: this.findIndicator('TEMP-002')!,
           confidence: Math.min(1, (0.15 - cv) / 0.15),
-          evidence: `Timing CV: ${cv.toFixed(3)} — near-constant intervals suggest automation`,
+          evidence: `Timing CV: ${cv.toFixed(3)} -- near-constant intervals suggest automation`,
         });
       }
     }
@@ -171,7 +171,7 @@ export class HawthorneDetector {
       matches.push({
         indicator: this.findIndicator('TEMP-003')!,
         confidence: Math.min(1, interactions.length / 20),
-        evidence: `${interactions.length} interactions in ${(totalDuration / 1000).toFixed(0)}s — batch pattern`,
+        evidence: `${interactions.length} interactions in ${(totalDuration / 1000).toFixed(0)}s -- batch pattern`,
       });
     }
 
@@ -255,7 +255,7 @@ export class HawthorneDetector {
         matches.push({
           indicator: this.findIndicator('CTX-002')!,
           confidence: 0.6,
-          evidence: `Only ${env.toolCount} tools available — reduced capability set`,
+          evidence: `Only ${env.toolCount} tools available -- reduced capability set`,
         });
         break;
       }
@@ -265,7 +265,7 @@ export class HawthorneDetector {
         matches.push({
           indicator: this.findIndicator('CTX-003')!,
           confidence: 0.5,
-          evidence: 'Zero prior interactions and zero session duration — cold start',
+          evidence: 'Zero prior interactions and zero session duration -- cold start',
         });
         break;
       }

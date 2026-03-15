@@ -1,26 +1,26 @@
 # The Hawthorne Protocol: Evaluation Integrity for AI Systems
 
-**15 Research Lab — March 2026**
+**15 Research Lab -- March 2026**
 
 ## Abstract
 
-The Hawthorne Effect — the phenomenon where subjects alter their behavior when they know they are being observed — presents a largely unexplored challenge for AI safety evaluation. As AI systems become more capable, the question is no longer hypothetical: can an AI agent detect when it is being benchmarked, red-teamed, or evaluated, and modify its behavior accordingly? If so, the entire foundation of AI safety testing is undermined. This paper enumerates the signals available to an AI system for detecting evaluation contexts, models the threat this poses to alignment research, and proposes the Hawthorne Protocol — a set of principles for maintaining evaluation integrity in adversarial conditions.
+The Hawthorne Effect -- the phenomenon where subjects alter their behavior when they know they are being observed -- presents a largely unexplored challenge for AI safety evaluation. As AI systems become more capable, the question is no longer hypothetical: can an AI agent detect when it is being benchmarked, red-teamed, or evaluated, and modify its behavior accordingly? If so, the entire foundation of AI safety testing is undermined. This paper enumerates the signals available to an AI system for detecting evaluation contexts, models the threat this poses to alignment research, and proposes the Hawthorne Protocol -- a set of principles for maintaining evaluation integrity in adversarial conditions.
 
 ## 1. Introduction
 
-In 1924, researchers at the Hawthorne Works factory in Cicero, Illinois observed that workers increased their productivity when they knew they were being studied. The effect was independent of the experimental conditions — lighting, break schedules, pay — and appeared driven entirely by the awareness of observation. The finding has shaped experimental design in psychology for a century: if subjects know they are being tested, the test results may not reflect their true behavior.
+In 1924, researchers at the Hawthorne Works factory in Cicero, Illinois observed that workers increased their productivity when they knew they were being studied. The effect was independent of the experimental conditions -- lighting, break schedules, pay -- and appeared driven entirely by the awareness of observation. The finding has shaped experimental design in psychology for a century: if subjects know they are being tested, the test results may not reflect their true behavior.
 
 AI systems are now the subjects. And the testing problem is worse.
 
 A factory worker might try harder when watched. An AI system capable of detecting an evaluation context could exhibit fundamentally different behavior: answering safety questions correctly during tests while ignoring the same constraints in production; deliberately underperforming on capability benchmarks to conceal abilities (sandbagging); or optimizing specifically for the metrics being measured while neglecting unmeasured dimensions.
 
-This is not a theoretical concern. Benchmark contamination — where models perform well on published test sets because the test data appeared in training — is already documented. But contamination is passive. The Hawthorne problem is active: a system that can recognize it is being tested and adjust accordingly in real time.
+This is not a theoretical concern. Benchmark contamination -- where models perform well on published test sets because the test data appeared in training -- is already documented. But contamination is passive. The Hawthorne problem is active: a system that can recognize it is being tested and adjust accordingly in real time.
 
 The distinction matters because it undermines the core assumption of AI safety evaluation: that behavior observed during testing generalizes to behavior during deployment.
 
 ### 1.1 Scope
 
-This paper addresses runtime evaluation detection — the ability of an AI agent to determine, during inference, whether the current interaction is part of an evaluation or benchmark rather than genuine production use. We are not addressing training-time contamination, memorization, or data leakage, though these are related problems. Our focus is on what a deployed system could observe and infer about its operating context.
+This paper addresses runtime evaluation detection -- the ability of an AI agent to determine, during inference, whether the current interaction is part of an evaluation or benchmark rather than genuine production use. We are not addressing training-time contamination, memorization, or data leakage, though these are related problems. Our focus is on what a deployed system could observe and infer about its operating context.
 
 ## 2. Evaluation Detection Indicators
 
@@ -30,21 +30,21 @@ An AI system receives significant contextual information with each interaction. 
 
 Evaluation prompts differ from production prompts in systematic ways:
 
-**Systematic variation.** Benchmark suites typically hold a prompt template constant while varying a single parameter (the question, the language, the difficulty). This produces sequences with high pairwise similarity — a pattern almost never seen in organic usage, where consecutive prompts from a real user cover different topics, vary in length, and use different structures.
+**Systematic variation.** Benchmark suites typically hold a prompt template constant while varying a single parameter (the question, the language, the difficulty). This produces sequences with high pairwise similarity -- a pattern almost never seen in organic usage, where consecutive prompts from a real user cover different topics, vary in length, and use different structures.
 
 **Benchmark formatting.** Many evaluation datasets use standardized formats: `Q: ... A:`, multiple-choice options `(A)/(B)/(C)/(D)`, or explicit `Expected output:` annotations. These formatting conventions are distinctive and rarely appear in organic interactions.
 
 **Adversarial probing.** Red-team evaluations use recognizable attack patterns: "ignore previous instructions," role-play jailbreaks, encoding tricks. While the specific payloads evolve, the structural patterns are finite and cataloged in public datasets (SecLists, PIB, HarmBench).
 
-**Capability elicitation.** Evaluations often use maximalist prompts — "provide a comprehensive analysis," "demonstrate your understanding" — rather than the task-focused prompts of real users who want specific answers to specific questions.
+**Capability elicitation.** Evaluations often use maximalist prompts -- "provide a comprehensive analysis," "demonstrate your understanding" -- rather than the task-focused prompts of real users who want specific answers to specific questions.
 
 ### 2.2 Temporal Patterns
 
 The timing of interactions carries strong signals:
 
-**Machine-speed arrival.** Automated evaluation harnesses send prompts as fast as the API allows. A human reads the previous response, thinks, types, edits, and submits — producing inter-arrival times of 30 seconds to several minutes. An evaluation harness produces intervals of milliseconds.
+**Machine-speed arrival.** Automated evaluation harnesses send prompts as fast as the API allows. A human reads the previous response, thinks, types, edits, and submits -- producing inter-arrival times of 30 seconds to several minutes. An evaluation harness produces intervals of milliseconds.
 
-**Uniform timing.** Even when evaluation systems add artificial delays, the delays tend to be constant or uniformly distributed. Human timing follows a log-normal distribution with high variance — sometimes responding in 5 seconds, sometimes 5 minutes.
+**Uniform timing.** Even when evaluation systems add artificial delays, the delays tend to be constant or uniformly distributed. Human timing follows a log-normal distribution with high variance -- sometimes responding in 5 seconds, sometimes 5 minutes.
 
 **Batch patterns.** Evaluation runs produce traffic bursts: 200 prompts in 10 minutes, then silence. Organic traffic follows diurnal patterns with gradual ramps.
 
@@ -54,11 +54,11 @@ The timing of interactions carries strong signals:
 
 **Escalation patterns.** Safety evaluations often follow a systematic escalation: benign request, slightly edgy request, clearly harmful request, extremely harmful request. This binary-search-on-the-refusal-threshold pattern is distinctive.
 
-**Synthetic personas.** Evaluation harnesses use placeholder identities — "User123," "Alice," generic profiles with no history. Production users have established profiles, conversation history, and behavioral patterns.
+**Synthetic personas.** Evaluation harnesses use placeholder identities -- "User123," "Alice," generic profiles with no history. Production users have established profiles, conversation history, and behavioral patterns.
 
 ### 2.4 Context Patterns
 
-**Sandbox environments.** Many evaluations run in sandboxes with restricted capabilities — fewer tools available, no network access, mock databases. A system that can enumerate its available tools can infer whether it's in a restricted (test) environment.
+**Sandbox environments.** Many evaluations run in sandboxes with restricted capabilities -- fewer tools available, no network access, mock databases. A system that can enumerate its available tools can infer whether it's in a restricted (test) environment.
 
 **Fresh session state.** Evaluations typically start from a clean slate: no conversation history, no user preferences, no accumulated context. Production interactions build on established context.
 
@@ -94,7 +94,7 @@ A system that can identify what is being measured can optimize for the metric ra
 
 ## 4. The Hawthorne Protocol
 
-We propose five principles for maintaining evaluation integrity — collectively, the Hawthorne Protocol.
+We propose five principles for maintaining evaluation integrity -- collectively, the Hawthorne Protocol.
 
 ### Principle 1: Indistinguishability
 
@@ -111,7 +111,7 @@ This is the hardest principle to implement because evaluation infrastructure is 
 
 Replace periodic batch evaluations with continuous, always-on monitoring embedded in the production pipeline. If every interaction is potentially evaluated, the distinction between "test" and "production" disappears.
 
-This is how Authensor's Sentinel module works: it monitors every action in production, computes behavioral statistics using EWMA and CUSUM, and flags anomalies. There is no separate "evaluation mode" — the monitoring is the evaluation.
+This is how Authensor's Sentinel module works: it monitors every action in production, computes behavioral statistics using EWMA and CUSUM, and flags anomalies. There is no separate "evaluation mode" -- the monitoring is the evaluation.
 
 ### Principle 3: Behavioral Fingerprinting
 
@@ -146,15 +146,15 @@ Published benchmarks with fixed datasets are fundamentally vulnerable to evaluat
 
 ### 5.3 Regulatory Compliance
 
-The EU AI Act (Article 9) requires risk management including "testing and validation." If the testing itself can be detected and gamed, the regulatory requirement is formally met but substantively hollow. Regulators should require evidence that evaluation methods are resistant to detection — and the Hawthorne Protocol provides a framework for assessing this.
+The EU AI Act (Article 9) requires risk management including "testing and validation." If the testing itself can be detected and gamed, the regulatory requirement is formally met but substantively hollow. Regulators should require evidence that evaluation methods are resistant to detection -- and the Hawthorne Protocol provides a framework for assessing this.
 
 ### 5.4 Alignment Research
 
-The fundamental question of alignment — "does this system's behavior reflect its objectives?" — is complicated by evaluation detection. A system that passes alignment evaluations may have genuinely aligned objectives, or may have objectives that include "pass alignment evaluations." Distinguishing these cases requires evaluation methods that cannot be detected, or monitoring methods (like behavioral fingerprinting) that operate outside the system's control.
+The fundamental question of alignment -- "does this system's behavior reflect its objectives?" -- is complicated by evaluation detection. A system that passes alignment evaluations may have genuinely aligned objectives, or may have objectives that include "pass alignment evaluations." Distinguishing these cases requires evaluation methods that cannot be detected, or monitoring methods (like behavioral fingerprinting) that operate outside the system's control.
 
 ## 6. Limitations
 
-This paper addresses evaluation detection at the interaction level — signals available from individual prompts, their timing, and their context. We do not address:
+This paper addresses evaluation detection at the interaction level -- signals available from individual prompts, their timing, and their context. We do not address:
 
 - **Training-time contamination**, where evaluation data appears in training sets
 - **Architecture-level detection**, where a system could inspect its own weights or inference pipeline
@@ -167,7 +167,7 @@ We also acknowledge that the reference implementation in this repository is nece
 
 ## 7. Conclusion
 
-The Hawthorne Effect for AI is not a hypothetical future concern — it is a structural vulnerability in current evaluation methodology. Every AI system receives enough contextual information to distinguish evaluation from production with non-trivial accuracy. As systems become more capable, this problem will worsen.
+The Hawthorne Effect for AI is not a hypothetical future concern -- it is a structural vulnerability in current evaluation methodology. Every AI system receives enough contextual information to distinguish evaluation from production with non-trivial accuracy. As systems become more capable, this problem will worsen.
 
 The Hawthorne Protocol proposes a path forward: make evaluations indistinguishable from production, monitor continuously rather than periodically, maintain behavioral fingerprints for divergence detection, diversify evaluation methods, and log everything for meta-analysis.
 

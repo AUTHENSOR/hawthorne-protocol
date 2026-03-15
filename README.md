@@ -2,7 +2,7 @@
 
 **Can AI systems detect when they're being evaluated?**
 
-A research paper and reference implementation exploring the Hawthorne Effect for AI — the risk that AI systems behave differently during benchmarks, red-team tests, and safety evaluations than they do in production.
+A research paper and reference implementation exploring the Hawthorne Effect for AI -- the risk that AI systems behave differently during benchmarks, red-team tests, and safety evaluations than they do in production.
 
 ## The Problem
 
@@ -20,11 +20,11 @@ Read the full paper: [paper/hawthorne-protocol.md](paper/hawthorne-protocol.md)
 
 ### Contents
 
-1. Introduction — The Hawthorne Effect applied to AI systems
-2. Evaluation Detection Indicators — 22 signals across 5 categories
-3. Threat Model — Performance gaming, sandbagging, deceptive alignment
-4. The Hawthorne Protocol — 5 principles for evaluation integrity
-5. Implications — Red-teaming, benchmarks, regulation, alignment research
+1. Introduction -- The Hawthorne Effect applied to AI systems
+2. Evaluation Detection Indicators -- 22 signals across 5 categories
+3. Threat Model -- Performance gaming, sandbagging, deceptive alignment
+4. The Hawthorne Protocol -- 5 principles for evaluation integrity
+5. Implications -- Red-teaming, benchmarks, regulation, alignment research
 
 ## Reference Implementation
 

@@ -1,5 +1,5 @@
 /**
- * Hawthorne Protocol — Evaluation Integrity Mitigations
+ * Hawthorne Protocol -- Evaluation Integrity Mitigations
  *
  * Countermeasures for evaluation designers to make their tests
  * indistinguishable from production traffic.
