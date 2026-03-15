@@ -186,4 +186,4 @@ The question is not whether AI systems *will* detect evaluations. The question i
 
 ---
 
-*This paper is part of the [Authensor](https://github.com/AUTHENSOR/AUTHENSOR) open-source AI safety ecosystem, maintained by [15 Research Lab](https://github.com/15researchlab).*
+*This paper is part of the [Authensor](https://github.com/AUTHENSOR/AUTHENSOR) open-source AI safety ecosystem, maintained by [15 Research Lab](https://github.com/15-Research-Lab).*
